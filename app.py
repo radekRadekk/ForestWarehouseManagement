@@ -1,8 +1,6 @@
-import hashlib
+from flask import Flask, request, render_template
 
-import psycopg2
-from flask import Flask, Response, request, render_template
-
+from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api
 from constants import *
 
 app = Flask(__name__)
@@ -54,232 +52,65 @@ def get_new_user_view():
 
 @app.route('/api/storage_unit', methods=[GET])
 def get_storage_units():
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT storage_units.id, storage_units.name, storage_units.description \
-                         FROM storage_units ")
-
-            result = cur.fetchall()
-
-            formatted_results = []
-            for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "name": r[1],
-                    "description": r[2],
-                }
-                formatted_results.append(tmp_formatted_result)
-
-            return {"storage_units": formatted_results}
+    return storage_unit_api.get_storage_units()
 
 
 @app.route('/api/storage_unit/<int:storage_unit_id>', methods=[GET])
 def get_storage_unit(storage_unit_id):
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM storage_units WHERE id = %s", (storage_unit_id,))
-
-            result = cur.fetchone()
-
-            if result is None:
-                return Response(status=404)
-            return {"id": result[0], "name": result[1], "description": result[2]}
+    return storage_unit_api.get_storage_unit(storage_unit_id)
 
 
 @app.route('/api/storage_unit', methods=[POST])
 def create_storage_unit():
-    name = request.form["name"]
-    description = request.form["description"]
-
-    try:
-        with psycopg2.connect(CONNECTION_STRING) as conn:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO storage_units (name, description) VALUES (%s, %s)", (name, description))
-
-                conn.commit()
-    except:
-        return Response(status=400)
-
-    return Response(status=201)
+    return storage_unit_api.create_storage_unit(request)
 
 
 @app.route('/api/storage_unit/<int:storage_unit_id>', methods=[DELETE])
 def delete_storage_unit(storage_unit_id):
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("DELETE FROM storage_units WHERE id = %s", (storage_unit_id,))
-
-            conn.commit()
-
-        return Response(status=204)
+    return storage_unit_api.delete_storage_unit(storage_unit_id)
 
 
 # Product API
 
 @app.route('/api/product', methods=[GET])
 def get_products():
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT products.id, products.name, products.description, storage_units.name AS storage_unit_name, products.price \
-                         FROM products \
-                         INNER JOIN storage_units ON storage_units.id = Products.storage_unit_id")
-
-            result = cur.fetchall()
-
-            formatted_results = []
-            for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "name": r[1],
-                    "description": r[2],
-                    "storage_unit_name": r[3],
-                    "price": r[4]
-                }
-                formatted_results.append(tmp_formatted_result)
-
-            return {"products": formatted_results}
+    return product_api.get_products()
 
 
 @app.route('/api/product', methods=[POST])
 def create_product():
-    try:
-        with psycopg2.connect(CONNECTION_STRING) as conn:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO products (name, description, storage_unit_id,price) VALUES (%s, %s, %s, %s)",
-                            (request.form["name"], request.form["description"], request.form["storage_unit_id"],
-                             request.form["price"]))
-
-                conn.commit()
-    except:
-        return Response(status=400)
-
-    return Response(status=201)
+    return product_api.create_product(request)
 
 
 # WarehouseResource API
 
 @app.route('/api/warehouseResource', methods=[GET])
 def get_warehouse_resources():
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT warehouse_resources.id, products.name AS product_name, storage_units.name AS storage_unit_name, warehouse_resources.total_quantity, warehouse_resources.available_quantity \
-                        FROM warehouse_resources \
-                        INNER JOIN products ON products.id = warehouse_resources.product_id \
-                        INNER JOIN storage_units ON storage_units.id = products.storage_unit_id")
-
-            result = cur.fetchall()
-
-            formatted_results = []
-            for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "product_name": r[1],
-                    "storage_unit_name": r[2],
-                    "total_quantity": r[3],
-                    "available_quantity": r[4]
-                }
-                formatted_results.append(tmp_formatted_result)
-
-            return {"warehouse_resources": formatted_results}
+    return warehouse_resource_api.get_warehouse_resources()
 
 
 @app.route('/api/warehouseResource', methods=[POST])
 def add_warehouse_resource():
-    quantity = request.form["quantity"]
-    product_id = request.form["product_id"]
-
-    try:
-        with psycopg2.connect(CONNECTION_STRING) as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM warehouse_resources WHERE product_id = %s", (product_id,))
-
-                result = cur.fetchone()
-
-                if result is None:
-                    cur.execute(
-                        "INSERT INTO warehouse_resources (product_id, total_quantity, available_quantity) VALUES (%s, %s, %s)",
-                        (product_id, quantity, quantity))
-
-                    conn.commit()
-                else:
-                    cur.execute("UPDATE warehouse_resources \
-                    SET total_quantity = total_quantity+%s, available_quantity = available_quantity+%s \
-                    WHERE product_id = %s", (quantity, quantity, product_id))
-
-                    conn.commit()
-    except:
-        return Response(status=400)
-
-    return Response(status=200)
+    return warehouse_resource_api.add_warehouse_resource(request)
 
 
 # Role API
 
 @app.route('/api/role', methods=[GET])
 def get_roles():
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT roles.id, roles.name FROM roles")
-
-            result = cur.fetchall()
-
-            formatted_results = []
-            for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "name": r[1],
-                }
-                formatted_results.append(tmp_formatted_result)
-
-            return {"roles": formatted_results}
+    return role_api.get_roles()
 
 
 # User API
 
 @app.route('/api/user', methods=[GET])
 def get_users():
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT users.id, users.name, users.surname, users.login, roles.name AS role_name \
-                        FROM users \
-                        INNER JOIN roles ON roles.id = users.role_id")
-
-            result = cur.fetchall()
-
-            formatted_results = []
-            for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "name": r[1],
-                    "surname": r[2],
-                    "login": r[3],
-                    "role_name": r[4]
-                }
-                formatted_results.append(tmp_formatted_result)
-
-            return {"users": formatted_results}
+    return user_api.get_users()
 
 
 @app.route('/api/user', methods=[POST])
 def create_user():
-    name = request.form["name"]
-    surname = request.form["surname"]
-    login = request.form["login"]
-    role_id = request.form["role_id"]
-    password_hash = hashlib.sha256(login.encode()).hexdigest()
-
-    try:
-        with psycopg2.connect(CONNECTION_STRING) as conn:
-            with conn.cursor() as cur:
-                cur.execute("INSERT INTO users (name, surname, login, password_hash, role_id) \
-                            VALUES (%s, %s, %s, %s, %s)",
-                            (name, surname, login, password_hash, role_id))
-
-                conn.commit()
-    except:
-        return Response(status=400)
-
-    return Response(status=201)
+    return user_api.create_user(request)
 
 
 if __name__ == '__main__':

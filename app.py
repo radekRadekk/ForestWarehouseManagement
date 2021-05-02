@@ -1,12 +1,27 @@
-from flask import Flask, request, render_template
+import datetime
 
-from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api
+from flask import Flask, request, render_template
+from flask_jwt_extended import JWTManager
+
+from access_decorators.admin_decorator import admin_required
+from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api, auth_api
 from constants import *
 
 app = Flask(__name__)
 
+app.config["JWT_SECRET_KEY"] = b'_5#y2L"F4Q8z\n\xec]/'
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=4)
+JWT_TOKEN_LOCATION = ["cookies"]
+
+jwt = JWTManager(app)
+
 
 # Views
+
+@app.route('/', methods=[GET])
+def get_login_view():
+    return render_template('Login.html')
+
 
 @app.route('/products', methods=[GET])
 def get_products_view():
@@ -46,6 +61,11 @@ def get_users_view():
 @app.route('/newUser', methods=[GET])
 def get_new_user_view():
     return render_template('NewUser.html')
+
+
+@app.route('/admin/menu', methods=[GET])
+def get_admin_employee_menu_view():
+    return render_template('admin_views/Menu.html')
 
 
 # StorageUnit API
@@ -97,6 +117,7 @@ def add_warehouse_resource():
 # Role API
 
 @app.route('/api/role', methods=[GET])
+@admin_required()
 def get_roles():
     return role_api.get_roles()
 
@@ -104,13 +125,27 @@ def get_roles():
 # User API
 
 @app.route('/api/user', methods=[GET])
+@admin_required()
 def get_users():
     return user_api.get_users()
 
 
 @app.route('/api/user', methods=[POST])
+@admin_required()
 def create_user():
     return user_api.create_user(request)
+
+
+# auth API
+
+@app.route('/api/auth', methods=[POST])
+def login():
+    return auth_api.login(request)
+
+
+@app.route('/api/auth', methods=[PUT])
+def logout():
+    return auth_api.logout()
 
 
 if __name__ == '__main__':

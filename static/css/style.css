@@ -38,3 +38,7 @@ body {
 .btn-secondary {
     margin: 16px;
 }
+
+.img-fluid{
+    border-radius: 25px;
+}

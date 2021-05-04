@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     view.usersImage.onclick = () => window.location.assign("/admin/users");
     view.storageUnitsImage.onclick = () => window.location.assign("/admin/storageUnits");
     view.productsImage.onclick = () => window.location.assign("/admin_or_office/products");
+    view.warehouseResourcesImage.onclick = () => window.location.assign("/warehouseResources");
 
     view.menuButton.onclick = () => window.location.assign("/admin/menu");
     view.logoutButton.onclick = () => logoutFunction();

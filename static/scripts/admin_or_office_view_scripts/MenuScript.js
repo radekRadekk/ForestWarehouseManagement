@@ -15,9 +15,10 @@ function createView() {
 document.addEventListener("DOMContentLoaded", () => {
     view = createView();
 
-    view.storageUnitsImage.onclick = () => window.location.assign("/admin/storageUnits");
+    view.storageUnitsImage.onclick = () => window.location.assign("/storageUnits");
     view.productsImage.onclick = () => window.location.assign("/admin_or_office/products");
+    view.warehouseResourcesImage.onclick = () => window.location.assign("/warehouseResources");
 
-    view.menuButton.onclick = () => window.location.assign("/admin/menu");
+    view.menuButton.onclick = () => menuFunction();
     view.logoutButton.onclick = () => logoutFunction();
 });

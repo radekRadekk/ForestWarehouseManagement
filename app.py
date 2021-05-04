@@ -72,6 +72,7 @@ def get_new_product_view():
 
 
 @app.route('/office_employee/menu', methods=[GET])
+@admin_or_office_employee_required()
 def get_office_employee_menu_view():
     return render_template('admin_or_office_views/Menu.html')
 
@@ -79,13 +80,27 @@ def get_office_employee_menu_view():
 # Views - All
 
 @app.route('/warehouseResources', methods=[GET])
+@jwt_required()
 def get_warehouse_resources_view():
     return render_template('admin_office_or_warehouse_views/WarehouseResources.html')
 
 
 @app.route('/addWarehouseResource', methods=[GET])
+@jwt_required()
 def get_add_warehouse_resource_view():
     return render_template('admin_office_or_warehouse_views/AddWarehouseResource.html')
+
+
+@app.route('/storageUnits', methods=[GET])
+@jwt_required()
+def get_storage_units_view():
+    return render_template('admin_office_or_warehouse_views/StorageUnits.html')
+
+#
+# @app.route('/products', methods=[GET])
+# @jwt_required()
+# def get_products_view():
+#     return render_template('/Products.html')
 
 
 # StorageUnit API

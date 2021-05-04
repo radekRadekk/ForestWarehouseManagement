@@ -40,3 +40,16 @@ def create_product(request):
         return Response(status=400)
 
     return Response(status=201)
+
+
+def delete_product(product_id):
+    try:
+        with psycopg2.connect(CONNECTION_STRING) as conn:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM products WHERE id = %s", (product_id,))
+
+                conn.commit()
+    except:
+        return Response(status=400)
+
+    return Response(status=204)

@@ -45,13 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.status === 201) {
                     view.modal.communicateModalTitle.innerText = "SUKCES!";
                     view.modal.communicateModalText.innerText = "Utworzono jednostkę magazynową!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/storageUnits");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin/storageUnits");
 
                     $("#communicateModal").modal('show');
                 } else {
                     view.modal.communicateModalTitle.innerText = "COŚ POSZŁO NIE TAK!";
                     view.modal.communicateModalText.innerText = "Nie udało się utworzyć jednostki magazynowej!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/newStorageUnit");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin/newStorageUnit");
 
                     $("#communicateModal").modal('show');
                 }

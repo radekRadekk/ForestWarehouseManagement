@@ -53,10 +53,13 @@ def create_storage_unit(request):
 
 
 def delete_storage_unit(storage_unit_id):
-    with psycopg2.connect(CONNECTION_STRING) as conn:
-        with conn.cursor() as cur:
-            cur.execute("DELETE FROM storage_units WHERE id = %s", (storage_unit_id,))
+    try:
+        with psycopg2.connect(CONNECTION_STRING) as conn:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM storage_units WHERE id = %s", (storage_unit_id,))
 
-            conn.commit()
+                conn.commit()
+    except:
+        return Response(status=400)
 
-        return Response(status=204)
+    return Response(status=204)

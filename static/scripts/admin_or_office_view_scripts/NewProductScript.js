@@ -62,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.status === 201) {
                     view.modal.communicateModalTitle.innerText = "SUKCES!";
                     view.modal.communicateModalText.innerText = "Utworzono produkt!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/products");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin_or_office/products");
 
                     $("#communicateModal").modal('show');
                 } else {
                     view.modal.communicateModalTitle.innerText = "COŚ POSZŁO NIE TAK!";
                     view.modal.communicateModalText.innerText = "Nie udało się utworzyć produktu!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/newProduct");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin_or_office/newProduct");
 
                     $("#communicateModal").modal('show');
                 }

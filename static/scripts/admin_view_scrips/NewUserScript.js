@@ -62,13 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.status === 201) {
                     view.modal.communicateModalTitle.innerText = "SUKCES!";
                     view.modal.communicateModalText.innerText = "Utworzono użytkownika!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/users");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin/users");
 
                     $("#communicateModal").modal('show');
                 } else {
                     view.modal.communicateModalTitle.innerText = "COŚ POSZŁO NIE TAK!";
                     view.modal.communicateModalText.innerText = "Nie udało się użytkownika!";
-                    view.modal.communicateModalButton.onclick = () => window.location.replace("/newUser");
+                    view.modal.communicateModalButton.onclick = () => window.location.replace("/admin/newUser");
 
                     $("#communicateModal").modal('show');
                 }

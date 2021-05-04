@@ -31,6 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-    view.addUserButton.onclick = () => window.location.replace("/newUser");
+    view.addUserButton.onclick = () => window.location.replace("/admin/newUser");
     // view.logoutButton.onclick = () => logout(view.modal);
 });

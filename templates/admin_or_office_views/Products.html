@@ -8,13 +8,11 @@
 
     <title>Notatkowo</title>
 
-    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
-    <script src="../static/scripts/NewUserScript.js"></script>
-
+    <link href="../../static/css/style.css" rel="stylesheet" type="text/css">
+    <script src="../../static/scripts/admin_or_office_view_scripts/ProductsScript.js"></script>
 
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/userHome.html">Notatkowo</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -31,40 +29,29 @@
     </div>
 </nav>
 
-<div class="element">
-    <div class="container col-12">
-        <div class="row justify-content-center">
-            <h4 class="text-center">Nowy użytkownik</h4>
+<div class="container col-12">
+    <div class="row">
+        <div class="container col-2">
+            <button type="button" class="btn btn-secondary" id="addProductButton">Nowy produkt</button>
         </div>
-
-        <div class="row justify-content-center">
-            <form>
-                <div class="form-group row">
-                    <label for="nameInput">Imię</label>
-                    <input type="text" class="form-control" id="nameInput" placeholder="Imię">
-                </div>
-                <div class="form-group row">
-                    <label for="surnameInput">Nazwisko</label>
-                    <input type="text" class="form-control" id="surnameInput" placeholder="Nazwisko">
-                </div>
-                <div class="form-group row">
-                    <label for="loginInput">Login</label>
-                    <input type="text" class="form-control" id="loginInput" placeholder="Login">
-                </div>
-                <div class="form-group row">
-                    <label for="roleSelect">Rola</label>
-                    <div class="row justify-content-center">
-                        <select id="roleSelect" class="form-select" aria-label="Default select example">
-                            <option value="-1" selected>Wybierz rolę</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="text-center">
-                    <button type="button" id="createButton" class="btn btn-primary btn-sm">Dodaj</button>
-                </div>
-            </form>
+        <div class="container col-10">
+            <div class="row justify-content-center">
+                <h4 class="text-center">Produkty</h4>
+                <table class="table table-dark table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Opis</th>
+                        <th scope="col">Nazwa jednostki</th>
+                        <th scope="col">Cena jednostkowa</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
     </div>
 </div>
 

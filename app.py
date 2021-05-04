@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.config["JWT_SECRET_KEY"] = b'_5#y2L"F4Q8z\n\xec]/'
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=4)
-JWT_TOKEN_LOCATION = ["cookies"]
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 
 jwt = JWTManager(app)
 
@@ -23,49 +23,56 @@ def get_login_view():
     return render_template('Login.html')
 
 
+# Views - Admin Views
+
+@app.route('/admin/menu', methods=[GET])
+@admin_required()
+def get_admin_employee_menu_view():
+    return render_template('admin_views/Menu.html')
+
+
+@app.route('/admin/users', methods=[GET])
+@admin_required()
+def get_users_view():
+    return render_template('admin_views/Users.html')
+
+
+@app.route('/admin/newUser', methods=[GET])
+@admin_required()
+def get_new_user_view():
+    return render_template('admin_views/NewUser.html')
+
+
+@app.route('/admin/storageUnits', methods=[GET])
+def get_admin_storage_units_view():
+    return render_template('admin_views/StorageUnits.html')
+
+
+@app.route('/admin/newStorageUnit', methods=[GET])
+def get_admin_new_storage_unit_view():
+    return render_template('admin_views/NewStorageUnit.html')
+
+
+# Views - Admin or Office Employee Views
+
 @app.route('/products', methods=[GET])
 def get_products_view():
-    return render_template('Products.html')
+    return render_template('admin_or_office_views/Products.html')
 
 
 @app.route('/newProduct', methods=[GET])
 def get_new_product_view():
-    return render_template('NewProduct.html')
-
-
-@app.route('/storageUnits', methods=[GET])
-def get_storage_units_view():
-    return render_template('StorageUnits.html')
-
-
-@app.route('/newStorageUnit', methods=[GET])
-def get_new_storage_unit_view():
-    return render_template('NewStorageUnit.html')
+    return render_template('admin_or_office_views/NewProduct.html')
 
 
 @app.route('/warehouseResources', methods=[GET])
 def get_warehouse_resources_view():
-    return render_template('WarehouseResources.html')
+    return render_template('admin_office_or_warehouse_views/WarehouseResources.html')
 
 
 @app.route('/addWarehouseResource', methods=[GET])
 def get_add_warehouse_resource_view():
-    return render_template('AddWarehouseResource.html')
-
-
-@app.route('/users', methods=[GET])
-def get_users_view():
-    return render_template('Users.html')
-
-
-@app.route('/newUser', methods=[GET])
-def get_new_user_view():
-    return render_template('NewUser.html')
-
-
-@app.route('/admin/menu', methods=[GET])
-def get_admin_employee_menu_view():
-    return render_template('admin_views/Menu.html')
+    return render_template('admin_office_or_warehouse_views/AddWarehouseResource.html')
 
 
 # StorageUnit API

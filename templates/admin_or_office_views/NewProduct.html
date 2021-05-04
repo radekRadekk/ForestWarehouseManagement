@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -8,8 +8,8 @@
 
     <title>Notatkowo</title>
 
-    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
-        <script src="../static/scripts/AddWarehouseResourceScript.js"></script>
+    <link href="../../static/css/style.css" rel="stylesheet" type="text/css">
+    <script src="../../static/scripts/admin_or_office_view_scripts/NewProductScript.js"></script>
 
 
 </head>
@@ -34,26 +34,33 @@
 <div class="element">
     <div class="container col-12">
         <div class="row justify-content-center">
-            <h4 class="text-center">Dodaj zasób magazynowy</h4>
+            <h4 class="text-center">Nowy produkt</h4>
         </div>
 
         <div class="row justify-content-center">
             <form>
                 <div class="form-group row">
-                    <label for="productSelect">Produkt</label>
+                    <label for="nameInput">Nazwa</label>
+                    <input type="text" class="form-control" id="nameInput" placeholder="Nazwa produktu">
+                </div>
+                <div class="form-group row">
+                    <label for="descriptionInput">Opis</label>
+                    <input type="text" class="form-control" id="descriptionInput" placeholder="Opis produktu">
+                </div>
+                <div class="form-group row">
                     <div class="row justify-content-center">
-                        <select id="productSelect" class="form-select"
+                        <select id="storageUnitSelect" class="form-select"
                                 aria-label="Default select example">
-                            <option value="-1" selected>Wybierz produkt</option>
+                            <option value="-1" selected>Wybierz jednostkę magazynową</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="quantityInput">Opis</label>
-                    <input type="text" class="form-control" id="quantityInput" placeholder="Ilość">
+                    <label for="priceInput">Cena jednostkowa</label>
+                    <input type="text" class="form-control" id="priceInput" placeholder="Cena">
                 </div>
                 <div class="text-center">
-                    <button type="button" id="addButton" class="btn btn-primary btn-sm">Dodaj</button>
+                    <button type="button" id="createButton" class="btn btn-primary btn-sm">Dodaj</button>
                 </div>
             </form>
         </div>

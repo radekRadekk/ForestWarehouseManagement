@@ -30,6 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-    view.newStorageUnitButton.onclick = () => window.location.replace("/newStorageUnit");
+    view.newStorageUnitButton.onclick = () => window.location.replace("/admin/newStorageUnit");
     // view.logoutButton.onclick = () => logout(view.modal);
 });

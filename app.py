@@ -96,17 +96,23 @@ def get_add_warehouse_resource_view():
 def get_storage_units_view():
     return render_template('admin_office_or_warehouse_views/StorageUnits.html')
 
-#
-# @app.route('/products', methods=[GET])
-# @jwt_required()
-# def get_products_view():
-#     return render_template('/Products.html')
+
+@app.route('/products', methods=[GET])
+@jwt_required()
+def get_products_view():
+    return render_template('admin_office_or_warehouse_views/Products.html')
+
+
+@app.route('/warehouse_employee/menu')
+@jwt_required()
+def get_warehouse_employee_menu_view():
+    return render_template('admin_office_or_warehouse_views/Menu.html')
 
 
 # StorageUnit API
 
 @app.route('/api/storage_unit', methods=[GET])
-@admin_or_office_employee_required()
+@jwt_required()
 def get_storage_units():
     return storage_unit_api.get_storage_units()
 

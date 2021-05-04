@@ -41,5 +41,6 @@ def login(request):
 def logout():
     response = Response(status=200)
     response.set_cookie("access_token_cookie", "", max_age=-1, path='/', httponly=True)
+    response.set_cookie("user_role_code", "", -1, path='/')
 
     return response

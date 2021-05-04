@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (json["user_role_code"] === ADMIN_EMPLOYEE_CODE) {
                         window.location.assign("/admin/menu");
                     } else if (json["user_role_code"] === OFFICE_EMPLOYEE_CODE) {
-
+                        window.location.assign("/office_employee/menu");
                     } else if (json["user_role_code"] === WAREHOUSE_EMPLOYEE_CODE) {
-
+                        window.location.assign("/warehouse_employee/menu");
                     }
                 }
             });

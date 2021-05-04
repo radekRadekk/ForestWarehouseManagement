@@ -14,6 +14,7 @@ function createView() {
             "communicateModalText": document.getElementById("communicateModalText")
         },
 
+        "menuButton": document.getElementById("menuButton"),
         "logoutButton": document.getElementById("logoutButton")
     }
 }
@@ -36,8 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-    view.newStorageUnitButton.onclick = () => window.location.replace("/admin/newStorageUnit");
-    // view.logoutButton.onclick = () => logout(view.modal);
+    view.newStorageUnitButton.onclick = () => window.location.assign("/admin/newStorageUnit");
+
+    view.menuButton.onclick = () => window.location.assign("/admin/menu");
+    view.logoutButton.onclick = () => logoutFunction();
 });
 
 function deleteStorageUnit(id) {

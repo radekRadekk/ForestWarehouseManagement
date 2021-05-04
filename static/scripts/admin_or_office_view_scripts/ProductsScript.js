@@ -14,6 +14,7 @@ function createView() {
             "communicateModalText": document.getElementById("communicateModalText")
         },
 
+        "menuButton": document.getElementById("menuButton"),
         "logoutButton": document.getElementById("logoutButton")
     }
 }
@@ -37,7 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     view.newProductButton.onclick = () => window.location.replace("/admin_or_office/newProduct");
-    // view.logoutButton.onclick = () => logout(view.modal);
+
+    view.menuButton.onclick = () => menuFunction();
+    view.logoutButton.onclick = () => logoutFunction();
 });
 
 function deleteProduct(id) {

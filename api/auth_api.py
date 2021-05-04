@@ -31,6 +31,7 @@ def login(request):
                     response = Response(status=200, response=json.dumps(data))
                     token = create_access_token(identity=user_login, additional_claims={"user_role_code": result[1]})
                     response.set_cookie("access_token_cookie", token, max_age=4 * 60 * 60, path='/', httponly=True)
+                    response.set_cookie("user_role_code", result[1], max_age=4 * 60 * 60, path='/')
 
                     return response
     except:

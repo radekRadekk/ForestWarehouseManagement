@@ -71,6 +71,11 @@ def get_new_product_view():
     return render_template('admin_or_office_views/NewProduct.html')
 
 
+@app.route('/office_employee/menu', methods=[GET])
+def get_office_employee_menu_view():
+    return render_template('admin_or_office_views/Menu.html')
+
+
 # Views - All
 
 @app.route('/warehouseResources', methods=[GET])

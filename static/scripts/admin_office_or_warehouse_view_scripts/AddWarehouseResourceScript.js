@@ -15,6 +15,7 @@ function createView() {
             "communicateModalText": document.getElementById("communicateModalText")
         },
 
+        "menuButton": document.getElementById("menuButton"),
         "logoutButton": document.getElementById("logoutButton")
     }
 }
@@ -68,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     };
 
-    // view.logoutButton.onclick = () => logout(view.modal);
+    view.menuButton.onclick = () => menuFunction();
+    view.logoutButton.onclick = () => logoutFunction();
 });
 
 function setAddButtonVisibility() {

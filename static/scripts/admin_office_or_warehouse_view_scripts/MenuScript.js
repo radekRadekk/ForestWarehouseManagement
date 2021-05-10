@@ -6,7 +6,6 @@ function createView() {
         "storageUnitsImage": document.getElementById("storageUnitsImage"),
         "productsImage": document.getElementById("productsImage"),
         "warehouseResourcesImage": document.getElementById("warehouseResourcesImage"),
-        "ordersImage": document.getElementById("ordersImage"),
 
         "menuButton": document.getElementById("menuButton"),
         "logoutButton": document.getElementById("logoutButton")

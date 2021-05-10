@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS order_positions
             ON DELETE NO ACTION,
     CONSTRAINT fk_order_id
         FOREIGN KEY (order_id)
-            REFERENCES products (id)
+            REFERENCES orders (id)
             ON DELETE CASCADE
 );
 

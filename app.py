@@ -1,11 +1,11 @@
 import datetime
 
 from flask import Flask, request, render_template
-from flask_jwt_extended import JWTManager, jwt_required
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 from access_decorators.admin_decorator import admin_required
 from access_decorators.admin_or_office_employee_decorator import admin_or_office_employee_required
-from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api, auth_api
+from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api, auth_api, order_api
 from constants import *
 
 app = Flask(__name__)
@@ -57,6 +57,12 @@ def get_admin_new_storage_unit_view():
     return render_template('admin_views/NewStorageUnit.html')
 
 
+@app.route('/admin/orders', methods=[GET])
+@admin_required()
+def get_admin_orders_view():
+    return render_template('admin_views/Orders.html')
+
+
 # Views - Admin or Office Employee Views
 
 @app.route('/admin_or_office/products', methods=[GET])
@@ -75,6 +81,12 @@ def get_new_product_view():
 @admin_or_office_employee_required()
 def get_office_employee_menu_view():
     return render_template('admin_or_office_views/Menu.html')
+
+
+@app.route('/admin_or_office/newOrder', methods=[GET])
+@admin_or_office_employee_required()
+def get_create_order_view():
+    return render_template('admin_or_office_views/NewOrder.html')
 
 
 # Views - All
@@ -107,6 +119,15 @@ def get_products_view():
 @jwt_required()
 def get_warehouse_employee_menu_view():
     return render_template('admin_office_or_warehouse_views/Menu.html')
+
+
+# Order API
+
+@app.route('/api/order', methods=[POST])
+@admin_or_office_employee_required()
+def create_order():
+    user_login = get_jwt_identity()
+    return order_api.create_order(request, user_login)
 
 
 # StorageUnit API
@@ -161,6 +182,12 @@ def get_warehouse_resources():
 @jwt_required()
 def add_warehouse_resource():
     return warehouse_resource_api.add_warehouse_resource(request)
+
+
+@app.route('/api/availableWarehouseResources', methods=[GET])
+@admin_or_office_employee_required()
+def get_available_warehouse_resources():
+    return warehouse_resource_api.get_available_warehouse_resources()
 
 
 # Role API

@@ -16,14 +16,15 @@ def get_warehouse_resources():
 
             formatted_results = []
             for r in result:
-                tmp_formatted_result = {
-                    "id": r[0],
-                    "product_name": r[1],
-                    "storage_unit_name": r[2],
-                    "total_quantity": r[3],
-                    "available_quantity": r[4]
-                }
-                formatted_results.append(tmp_formatted_result)
+                if r[3] != 0:
+                    tmp_formatted_result = {
+                        "id": r[0],
+                        "product_name": r[1],
+                        "storage_unit_name": r[2],
+                        "total_quantity": r[3],
+                        "available_quantity": r[4]
+                    }
+                    formatted_results.append(tmp_formatted_result)
 
             return {"warehouse_resources": formatted_results}
 

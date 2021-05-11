@@ -133,6 +133,12 @@ def get_orders_for_release():
     return render_template('admin_office_or_warehouse_views/OrdersForRelease.html')
 
 
+@app.route('/orderDetails/<int:order_id>', methods=[GET])
+@jwt_required()
+def get_order_details(order_id):
+    return render_template('admin_office_or_warehouse_views/OrderDetails.html')
+
+
 # Order API
 
 @app.route('/api/order', methods=[POST])
@@ -142,16 +148,29 @@ def create_order():
     return order_api.create_order(request, user_login)
 
 
-@app.route('/api/admin/order')
+@app.route('/api/admin/order', methods=[GET])
 @admin_required()
 def get_admin_orders():
     return order_api.get_orders(only_active=False)
 
 
-@app.route('/api/order')
+@app.route('/api/order', methods=[GET])
 @jwt_required()
 def get_orders():
     return order_api.get_orders(only_active=True)
+
+
+@app.route('/api/order/<int:order_id>', methods=[GET])
+@jwt_required()
+def get_order(order_id):
+    return order_api.get_order(order_id)
+
+
+@app.route('/api/order/<int:order_id>', methods=[POST])
+@jwt_required()
+def release_order(order_id):
+    user_login = get_jwt_identity()
+    return order_api.release_order(order_id, user_login)
 
 
 # StorageUnit API

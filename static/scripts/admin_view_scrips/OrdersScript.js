@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     '</td><td>' + order.release_date +
                     '</td><td><button id="details_' + order.id + '">Detale</button></td></tr>';
             }
-            //
-            // for (let i = 0; i < data.storage_units.length; i++) {
-            //     document.getElementById("delete_" + data.storage_units[i].id).onclick = () => deleteStorageUnit(data.storage_units[i].id);
-            // }
+
+            for (let i = 0; i < data.orders.length; i++) {
+                document.getElementById("details_" + data.orders[i].id).onclick = () => window.location.assign("/orderDetails/" + data.orders[i].id);
+            }
         });
 
     view.newOrderButton.onclick = () => window.location.assign("/admin_or_office/newOrder");

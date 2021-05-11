@@ -40,3 +40,43 @@ def create_order(request, user_login):
         return Response(status=400)
 
     return Response(status=201)
+
+
+def get_orders(only_active):
+    with psycopg2.connect(CONNECTION_STRING) as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT orders.id, orders.client_name, orders.date AS creation_date, receipts.date AS release_date \
+                        FROM orders \
+                        LEFT JOIN receipts ON receipts.order_id = orders.id")
+
+            result = cur.fetchall()
+
+            formatted_results = []
+            for r in result:
+                if only_active:
+                    if r[3] != None:
+                        tmp_formatted_result = {
+                            "id": r[0],
+                            "client_name": r[1],
+                            "creation_date": r[2],
+                        }
+                        formatted_results.append(tmp_formatted_result)
+                else:
+                    if r[3] == None:
+                        tmp_formatted_result = {
+                            "id": r[0],
+                            "client_name": r[1],
+                            "creation_date": r[2],
+                            "release_date": ""
+                        }
+                        formatted_results.append(tmp_formatted_result)
+                    else:
+                        tmp_formatted_result = {
+                            "id": r[0],
+                            "client_name": r[1],
+                            "creation_date": r[2],
+                            "release_date": r[3]
+                        }
+                        formatted_results.append(tmp_formatted_result)
+
+            return {"orders": formatted_results}

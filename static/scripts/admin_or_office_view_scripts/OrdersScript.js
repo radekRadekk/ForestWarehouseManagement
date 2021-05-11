@@ -1,4 +1,4 @@
-const GET_ORDERS_LINK = "/api/admin/order";
+const GET_ORDERS_LINK = "/api/order";
 
 let view;
 
@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 let order = data.orders[i];
                 view.ordersTableBody.innerHTML += '<tr><td>' + order.id +
                     '</td><td>' + order.client_name + '</td><td>' + order.creation_date +
-                    '</td><td>' + order.release_date +
                     '</td><td><button id="details_' + order.id + '">Detale</button></td></tr>';
             }
             //
@@ -33,6 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     view.newOrderButton.onclick = () => window.location.assign("/admin_or_office/newOrder");
 
-    view.menuButton.onclick = () => window.location.assign("/admin/menu");
+    view.menuButton.onclick = () => window.location.assign("/office_employee/menu");
     view.logoutButton.onclick = () => logoutFunction();
 });

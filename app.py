@@ -89,6 +89,12 @@ def get_create_order_view():
     return render_template('admin_or_office_views/NewOrder.html')
 
 
+@app.route('/admin_or_office/orders', methods=[GET])
+@admin_or_office_employee_required()
+def get_office_employee_orders_view():
+    return render_template('admin_or_office_views/Orders.html')
+
+
 # Views - All
 
 @app.route('/warehouseResources', methods=[GET])
@@ -121,6 +127,12 @@ def get_warehouse_employee_menu_view():
     return render_template('admin_office_or_warehouse_views/Menu.html')
 
 
+@app.route('/warehouse_employee/ordersForRelease', methods=[GET])
+@jwt_required()
+def get_orders_for_release():
+    return render_template('admin_office_or_warehouse_views/OrdersForRelease.html')
+
+
 # Order API
 
 @app.route('/api/order', methods=[POST])
@@ -128,6 +140,18 @@ def get_warehouse_employee_menu_view():
 def create_order():
     user_login = get_jwt_identity()
     return order_api.create_order(request, user_login)
+
+
+@app.route('/api/admin/order')
+@admin_required()
+def get_admin_orders():
+    return order_api.get_orders(only_active=False)
+
+
+@app.route('/api/order')
+@jwt_required()
+def get_orders():
+    return order_api.get_orders(only_active=True)
 
 
 # StorageUnit API

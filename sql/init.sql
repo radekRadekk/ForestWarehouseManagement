@@ -1,10 +1,10 @@
 ﻿CREATE TABLE IF NOT EXISTS roles
 (
-    id            INT GENERATED ALWAYS AS IDENTITY,
-    name          VARCHAR(50)           NOT NULL,
-    code          VARCHAR(20) UNIQUE    NOT NULL,
+    id   INT GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(50)        NOT NULL,
+    code VARCHAR(20) UNIQUE NOT NULL,
 
-    PRIMARY KEY(id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS users
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS warehouse_resources
 (
     id                 INT GENERATED ALWAYS AS IDENTITY,
     product_id         INT UNIQUE NOT NULL,
-    total_quantity     INT 		  NOT NULL,
-    available_quantity INT 		  NOT NULL,
+    total_quantity     INT        NOT NULL,
+    available_quantity INT        NOT NULL,
 
     PRIMARY KEY (id),
     CONSTRAINT fk_product
@@ -129,6 +129,13 @@ CREATE TABLE IF NOT EXISTS receipts
             ON DELETE NO ACTION
 );
 
-INSERT INTO roles(name, code) VALUES('admin', 'admin_employee');
-INSERT INTO roles(name, code) VALUES('pracownik biura', 'office_employee');
-INSERT INTO roles(name, code) VALUES('pracownik magazynu', 'warehouse_employee');
+INSERT INTO roles(name, code)
+VALUES ('admin', 'admin_employee');
+INSERT INTO roles(name, code)
+VALUES ('pracownik biura', 'office_employee');
+INSERT INTO roles(name, code)
+VALUES ('pracownik magazynu', 'warehouse_employee');
+
+INSERT INTO users(name, surname, login, password_hash, role_id)
+VALUES ('admin', 'admin', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+        (SELECT id FROM roles WHERE name = 'admin'));

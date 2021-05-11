@@ -1,11 +1,10 @@
-const GET_ORDERS_LINK = "/api/admin/order";
+const GET_ORDERS_LINK = "/api/order";
 
 let view;
 
 function createView() {
     return {
         "ordersTableBody": document.getElementsByTagName("tbody")[0],
-        "newOrderButton": document.getElementById("newOrderButton"),
 
         "menuButton": document.getElementById("menuButton"),
         "logoutButton": document.getElementById("logoutButton")
@@ -22,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 let order = data.orders[i];
                 view.ordersTableBody.innerHTML += '<tr><td>' + order.id +
                     '</td><td>' + order.client_name + '</td><td>' + order.creation_date +
-                    '</td><td>' + order.release_date +
-                    '</td><td><button id="details_' + order.id + '">Detale</button></td></tr>';
+                    '</td><td><button id="details_' + order.id + '">Detale</button>' +
+                    '</td><td><button id="release_' + order.id + '">Wydaj</button></td></tr>';
             }
             //
             // for (let i = 0; i < data.storage_units.length; i++) {
@@ -31,8 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
             // }
         });
 
-    view.newOrderButton.onclick = () => window.location.assign("/admin_or_office/newOrder");
-
-    view.menuButton.onclick = () => window.location.assign("/admin/menu");
+    view.menuButton.onclick = () => window.location.assign("/warehouse_employee/menu");
     view.logoutButton.onclick = () => logoutFunction();
 });

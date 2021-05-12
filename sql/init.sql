@@ -129,6 +129,39 @@ CREATE TABLE IF NOT EXISTS receipts
             ON DELETE NO ACTION
 );
 
+CREATE OR REPLACE FUNCTION show_released_products(start_date TIMESTAMP, end_date TIMESTAMP)
+    RETURNS TABLE
+            (
+                product_id        INT,
+                product_name      VARCHAR(50),
+                storage_unit_name VARCHAR(50),
+                product_sum       BIGINT,
+                price             MONEY
+            )
+AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT products.id        AS product_id,
+               products.name      AS product_name,
+               storage_units.name AS storage_unit_name,
+               summed_products.product_sum,
+               products.price
+        FROM products
+                 INNER JOIN storage_units ON products.storage_unit_id = storage_units.id
+                 INNER JOIN (
+            SELECT SUM(order_positions.quantity) AS product_sum, order_positions.product_id
+            FROM receipts
+                     INNER JOIN order_positions ON order_positions.order_id = receipts.order_id
+            WHERE receipts.date > start_date
+              AND receipts.date <= end_date
+            GROUP BY order_positions.product_id) AS summed_products ON summed_products.product_id = products.id;
+END;
+$$
+    LANGUAGE 'plpgsql';
+
+
+
 INSERT INTO roles(name, code)
 VALUES ('admin', 'admin_employee');
 INSERT INTO roles(name, code)

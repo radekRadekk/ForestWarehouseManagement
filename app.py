@@ -5,7 +5,8 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 from access_decorators.admin_decorator import admin_required
 from access_decorators.admin_or_office_employee_decorator import admin_or_office_employee_required
-from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api, auth_api, order_api
+from api import user_api, role_api, warehouse_resource_api, product_api, storage_unit_api, auth_api, order_api, \
+    reports_api
 from constants import *
 
 app = Flask(__name__)
@@ -61,6 +62,18 @@ def get_admin_new_storage_unit_view():
 @admin_required()
 def get_admin_orders_view():
     return render_template('admin_views/Orders.html')
+
+
+@app.route('/admin/reports', methods=[GET])
+@admin_required()
+def get_reports_view():
+    return render_template('admin_views/Reports.html')
+
+
+@app.route('/admin/reports/showReleasedProducts', methods=[GET])
+@admin_required()
+def get_show_released_products_view():
+    return render_template('admin_views/ShowReleasedProducts.html')
 
 
 # Views - Admin or Office Employee Views
@@ -171,6 +184,14 @@ def get_order(order_id):
 def release_order(order_id):
     user_login = get_jwt_identity()
     return order_api.release_order(order_id, user_login)
+
+
+# Reports API
+
+@app.route('/api/reports/showReleasedProducts', methods=[POST])
+@admin_required()
+def show_released_products_report():
+    return reports_api.show_released_products_report(request)
 
 
 # StorageUnit API
